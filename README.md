@@ -4,7 +4,7 @@
 
 Deploy the example using [ZEIT Now](https://zeit.co/now):
 
-[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/zeit/next.js/tree/canary/examples/api-routes-apollo-server-and-client)
+[![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/new/project?template=https://github.com/zeit/next.js/tree/canary/examples/with-typescript-graphql)
 
 ## How to use
 
@@ -13,9 +13,9 @@ Deploy the example using [ZEIT Now](https://zeit.co/now):
 Execute [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) with [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) or [npx](https://github.com/zkat/npx#readme) to bootstrap the example:
 
 ```bash
-npx create-next-app --example api-routes-apollo-server-and-client api-routes-apollo-server-and-client-app
+npx create-next-app --example with-typescript-graphql with-typescript-graphql-app
 # or
-yarn create next-app --example api-routes-apollo-server-and-client api-routes-apollo-server-and-client-app
+yarn create next-app --example with-typescript-graphql with-typescript-graphql-app
 ```
 
 ### Download manually
@@ -23,8 +23,8 @@ yarn create next-app --example api-routes-apollo-server-and-client api-routes-ap
 Download the example:
 
 ```bash
-curl https://codeload.github.com/zeit/next.js/tar.gz/canary | tar -xz --strip=2 next.js-canary/examples/api-routes-apollo-server-and-client
-cd api-routes-apollo-server-and-client
+curl https://codeload.github.com/zeit/next.js/tar.gz/canary | tar -xz --strip=2 next.js-canary/examples/with-typescript-graphql
+cd with-typescript-graphql
 ```
 
 Install it and run:
@@ -45,11 +45,19 @@ now
 
 ## The idea behind the example
 
-[Apollo](https://www.apollographql.com/client/) is a GraphQL client that allows you to easily query the exact data you need from a GraphQL server. In addition to fetching and mutating data, Apollo analyzes your queries and their results to construct a client-side cache of your data, which is kept up to date as further queries and mutations are run, fetching more results from the server.
+One of the strengths of GraphQL is enforcing data types on runtime. Further, TypeScript and [GraphQL Code Generator](https://graphql-code-generator.com/) (grapql-codegen) make it safer to type data statically, so you can write truly type-protected code with rich IDE assists.
 
-In this simple example, we integrate Apollo seamlessly with Next by wrapping our _pages/\_app.js_ inside a [higher-order component (HOC)](https://facebook.github.io/react/docs/higher-order-components.html). Using the HOC pattern we're able to pass down a central store of query result data created by Apollo into our React component hierarchy defined inside each page of our Next application.
+This template extends [Apollo Server and Client Example](https://github.com/zeit/next.js/tree/canary/examples/api-routes-apollo-server-and-client#readme) by rewriting in TypeScript and integrating [graphql-let](https://github.com/piglovesyou/graphql-let#readme), which runs graphql-codegen under the hood and enhances the use of typed GraphQL operation, like below.
 
-On initial page load, while on the server and inside `getInitialProps`, we invoke the Apollo method, [`getDataFromTree`](https://www.apollographql.com/docs/react/api/react-ssr/#getdatafromtree). This method returns a promise; at the point in which the promise resolves, our Apollo Client store is completely initialized.
+```typescript jsx
+import { useNewsQuery } from './news.grpahql'
+
+const  News: React.FC<{}> = (props) => {
+	// Typed already️⚡️
+	const { data: { news } } = useNewsQuery()
+	if (news) <div>{news.map(...)}</div>
+}
+```
 
 Note: Do not be alarmed that you see two renders being executed. Apollo recursively traverses the React render tree looking for Apollo query components. When it has done that, it fetches all these queries and then passes the result to a cache. This cache is then used to render the data on the server side (another React render).
 https://www.apollographql.com/docs/react/api/react-ssr/#getdatafromtree

@@ -1,3 +1,4 @@
+import { NextPage } from "next";
 import React from 'react';
 import Head from 'next/head';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -10,11 +11,8 @@ let apolloClient = null;
  * Creates and provides the apolloContext
  * to a next.js PageTree. Use it by wrapping
  * your PageComponent via HOC pattern.
- * @param {Function|Class} PageComponent
- * @param {Object} [config]
- * @param {Boolean} [config.ssr=true]
  */
-export function withApollo(PageComponent, { ssr = true } = {}) {
+export default function withGraphQL(PageComponent: NextPage, { ssr = true } = {}) {
   const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
     const client = apolloClient || initApolloClient(apolloState);
     return (
@@ -136,7 +134,7 @@ function createApolloClient(initialState = {}) {
 function createIsomorphLink() {
   if (typeof window === 'undefined') {
     const { SchemaLink } = require('apollo-link-schema');
-    const { schema } = require('./schema');
+    const schema = require('./index').default;
     return new SchemaLink({ schema });
   } else {
     const { HttpLink } = require('apollo-link-http');
