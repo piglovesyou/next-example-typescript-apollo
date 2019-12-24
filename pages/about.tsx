@@ -1,11 +1,13 @@
 import Link from 'next/link'
+import Layout from "../components/layout";
+import Button from 'react-bootstrap/Button';
 
 export default () => (
-  <div>
+  <Layout>
     This is a static page goto{' '}
     <Link href="/">
-      <a>dynamic</a>
+      <Button>dynamic</Button>
     </Link>{' '}
     page.
-  </div>
+  </Layout>
 )

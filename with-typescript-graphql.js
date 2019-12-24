@@ -16,6 +16,9 @@ function withTypeScriptGraphQL(nextConfig = {}) {
         loader: 'graphql-tag/loader',
       });
 
+      if (nextConfig.webpack) {
+        return nextConfig.webpack(config, options);
+      }
       return config;
     },
   });

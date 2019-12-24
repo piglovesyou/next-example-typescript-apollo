@@ -1,3 +1,5 @@
+import Button from "react-bootstrap/Button";
+import Layout from "../components/layout";
 import withGraphQL from '../schema/with-graphql'
 import Link from 'next/link'
 import {useViewerQuery} from "./viewer.graphql";
@@ -10,13 +12,13 @@ const Index = () => {
   if (data) {
     const {viewer} = data;
     return (
-      <div>
+      <Layout>
         You're signed in as {viewer.name} and you're {viewer.status} goto{' '}
         <Link href="/about">
-          <a>static</a>
+          <Button>static</Button>
         </Link>{' '}
         page.
-      </div>
+      </Layout>
     )
   }
 
