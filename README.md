@@ -1,3 +1,7 @@
+Note: this example was merged into the official Next.js examples. Please visit [zeit/next.js/tree/canary/examples/with-typescript-graphq](https://github.com/zeit/next.js/tree/canary/examples/with-typescript-graphql).
+
+----
+
 # Apollo Server and Client Example
 
 ## Deploy your own
